@@ -12,7 +12,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 <style type="text/css">
 #wrapper {
-    width: 1000px;
+    width: 550px;
     margin-left: auto;margin-right: auto;
     display: inline-block;
 }
@@ -60,7 +60,7 @@
 		  </div>
 		</div>
 	  </div>
-	  <div id="second">
+	  <div id="second" style="display:none">
 		  <div id="tlkio" data-channel="pr2tools" data-theme="http://pr2tools.github.io/night.css" style="width:100%;height:470px;">
 		  </div>
 		  <script async src="http://tlk.io/embed.js" type="text/javascript">
@@ -72,7 +72,7 @@
 
 </div>
 <script>
-var displaychat = "1";
+var displaychat = "0";
 function togglechat(){
 	var chat = document.getElementById("second");
 	var wrapper = document.getElementById("wrapper");
