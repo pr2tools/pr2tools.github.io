@@ -107,7 +107,7 @@ function togglechat(){
 var counter = 0;
 function pr2status(){
 $.get(
-    'https://jsonp.nodejitsu.com/?url=https://pr2hub.com/files/server_status_2.txt?rand=' + counter,
+    'http://www.corsproxy.com/pr2hub.com/files/server_status_2.txt?rand=' + counter,
     function(response) { 
 		var obj = $.parseJSON(response);
 		//var serverstable = document.getElementById("serverstable").getElementsByTagName('tbody')[0]
