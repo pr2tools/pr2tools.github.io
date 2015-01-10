@@ -58,6 +58,24 @@
 			  <div align="left" style="padding-left:50px;">  
 			  <br/>1. Download the server <br/> 2. Start the server and press Enter <br/> 3. Log In here</div>
 		  </div>
+		  
+		  <div style="padding-left:15px;padding-right:15px;">
+			  <p>&nbsp;</p>
+			  <p>Current PR2 server status:</p>
+		  <table class="table" id="serverstable" >
+			  <thead>
+				<tr>
+				  <th>#</th>
+				  <th>Server</th>
+				  <th>Players</th>
+				  <th>Status</th>
+				</tr>
+			  </thead>
+			  <tbody>
+			   
+			  </tbody>
+		  </table>
+		  </div>
 		</div>
 	  </div>
 	  <div id="second" style="display:none">
@@ -86,6 +104,58 @@ function togglechat(){
 		wrapper.setAttribute("style", "width:1000px");
 	}
 }
+var counter = 0;
+function pr2status(){
+$.get(
+    'http://www.corsproxy.com/pr2hub.com/files/server_status_2.txt?rand=' + counter,
+    function(response) { 
+		var obj = $.parseJSON(response);
+		//var serverstable = document.getElementById("serverstable").getElementsByTagName('tbody')[0]
+		var tablehtml ="";
+		var maxsrv = 0;
+		var maxsrvid = 0;
+		for (k = 0; k < obj.servers.length; k++) { 
+			var players = parseInt(obj.servers[k].population);
+			if(players >= maxsrv){
+				maxsrvid = k;
+				maxsrv = players;
+			}
+			
+		}
+		for (i = 0; i < obj.servers.length; i++) { 
+			if(obj.servers[i].status == "down"){
+				tablehtml +='<tr class="danger">';
+			}else{
+				if(obj.servers[i].population == "0"){
+					tablehtml +='<tr>';
+					
+				}else{
+					if(i == maxsrvid){
+					tablehtml +='<tr class="info">';	
+					}else{
+					tablehtml +='<tr class="active">';
+					}
+					
+				}
+				
+			}
+			var happy = "";
+			if(obj.servers[i].happy_hour == "1"){
+				happy = " =)";
+			}
+			tablehtml +='<th scope="row">' + i + '</th>' +
+						'<td>' + obj.servers[i].server_name + happy + '</td>' +
+						'<td>' + obj.servers[i].population  + '</td>' +
+						'<td>' + obj.servers[i].status  + '</td>' +
+						'</tr>';
+		}
+		document.getElementById("serverstable").getElementsByTagName('tbody')[0].innerHTML = tablehtml;
+		});
+
+counter = counter +1;
+setInterval(pr2status, 30000);
+}
+pr2status();
 </script>
 </body>
 </html>
