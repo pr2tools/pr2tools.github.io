@@ -11,7 +11,7 @@ It will only work with the modified PR2 client which works with invalid packet h
 There is an alternative advanced way to access (only) the LevelEditor:
 
 1. Install [Switcheroo Redirector Google Chrome Extension](https://chrome.google.com/webstore/detail/switcheroo-redirector/cnmciclhnghalnpfhhleggldniplelbg/)
-2. Open Redirector and type `https://pr2hub.com/files/server_status_2.txt` in the FROM-field and `https://pr2tools.github.io/server_status_2.txt` in the TO-field.
+2. Open Redirector and type `pr2hub.com/files/server_status_2.txt` in the FROM-field and `pr2tools.github.io/server_status_2.txt` in the TO-field.
 3. Load PR2 on kongregate
 4. Start PR2 local server and hit '1'
 
