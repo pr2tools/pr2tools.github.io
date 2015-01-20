@@ -70,10 +70,10 @@ class TCPClient{
 		while (true)
 		{
 			int sm = -1;
-			if (ns.DataAvailable || smcon) {
+			//if (ns.DataAvailable || smcon) {
 				sm = nsr.Read();
 				smcon = true;
-			}
+			//}
 
 			if (sm != -1)
 			{
