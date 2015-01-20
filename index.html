@@ -24,6 +24,7 @@
 	width: 450px;
     overflow: hidden; 
 }
+
 </style>
 </head>
 <body>
@@ -106,12 +107,16 @@ function togglechat(){
 }
 var counter = 0;
 function pr2status(){
-$.get(
-    'http://www.corsproxy.com/pr2hub.com/files/server_status_2.txt?rand=' + counter,
-    function(response) { 
-		var obj = $.parseJSON(response);
-		//var serverstable = document.getElementById("serverstable").getElementsByTagName('tbody')[0]
-		var tablehtml ="";
+$.getJSON("http://query.yahooapis.com/v1/public/yql",
+  {
+    q:      "select * from json where url=\"https://pr2hub.com/files/server_status_2.txt\"",
+    format: "json"
+  },
+  function (data) {
+    if (data.query.results) {
+      var obj = data.query.results.json;
+      
+      		var tablehtml ="";
 		var maxsrv = 0;
 		var maxsrvid = 0;
 		for (k = 0; k < obj.servers.length; k++) { 
@@ -124,7 +129,7 @@ $.get(
 		}
 		for (i = 0; i < obj.servers.length; i++) { 
 			if(obj.servers[i].status == "down"){
-				tablehtml +='<tr class="danger">';
+				tablehtml +='<tr>';
 			}else{
 				if(obj.servers[i].population == "0"){
 					tablehtml +='<tr>';
@@ -150,11 +155,9 @@ $.get(
 						'</tr>';
 		}
 		document.getElementById("serverstable").getElementsByTagName('tbody')[0].innerHTML = tablehtml;
-		})
-		  .always(function() {
-			//setInterval(pr2status, 30000);
-			});
-
+    } 
+  }
+);
 counter = counter +1;
 
 }
