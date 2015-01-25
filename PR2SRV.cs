@@ -152,7 +152,7 @@ class TCPClient{
 					break;
 				case 11:
 					SendMsg("removeHat0`");
-					SendMsg ("setHats0`" + hatid + "`" + headc + "`" + headc2);
+					SendMsg ("setHats0`" + hatid + "`" + hatc + "`" + hatc2);
 					break;
 				default:
 					break;
