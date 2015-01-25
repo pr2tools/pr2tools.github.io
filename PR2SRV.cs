@@ -138,7 +138,7 @@ class TCPClient{
 					break;
 				case 8:
 					SendMsg ("finishDrawing`" + slotnum [0]);
-					SendMsg ("setHats0`" + hatid + "`" + headc + "`" + headc2);
+					SendMsg ("setHats0`" + hatid + "`" + hatc + "`" + hatc2);
 					SendMsg ("beginRace`" + slotnum [0]);
 					break;
 				case 9:
