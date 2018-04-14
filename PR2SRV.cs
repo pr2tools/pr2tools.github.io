@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
-
+using System.Diagnostics;
 
 class TCPClient{
 	public static string policyfile = "PD94bWwgdmVyc2lvbj0iMS4wIj8+CgkJCTwhRE9DVFlQRSBjcm9zcy1kb21haW4tcG9saWN5IFNZU1RFTSAiL3htbC9kdGRzL2Nyb3NzLWRvbWFpbi1wb2xpY3kuZHRkIj4KCQkJCgkJCTwhLS0gUG9saWN5IGZpbGUgZm9yIHhtbHNvY2tldDovL3NvY2tzLmV4YW1wbGUuY29tIC0tPgoJCQk8Y3Jvc3MtZG9tYWluLXBvbGljeT4gCgkJCQoJCQkgICA8IS0tIFRoaXMgaXMgYSBtYXN0ZXIgc29ja2V0IHBvbGljeSBmaWxlIC0tPgoJCQkgICA8IS0tIE5vIG90aGVyIHNvY2tldCBwb2xpY2llcyBvbiB0aGUgaG9zdCB3aWxsIGJlIHBlcm1pdHRlZCAtLT4KCQkJICAgPHNpdGUtY29udHJvbCBwZXJtaXR0ZWQtY3Jvc3MtZG9tYWluLXBvbGljaWVzPSJtYXN0ZXItb25seSIvPgoJCQkKCQkJICAgPGFsbG93LWFjY2Vzcy1mcm9tIGRvbWFpbj0iKiIgdG8tcG9ydHM9IjkwMDAtMTAwMDAiIC8+CgkJCQoJCQk8L2Nyb3NzLWRvbWFpbi1wb2xpY3k+AA==";
@@ -13,7 +13,7 @@ class TCPClient{
 	public static string customizeinfo0 = "setCustomizeInfo`16763904`0`16763904`0`2`16`2`38`1,2,7,3,4,8,10,11,13,12,9`1,2,3,4,5,6,7,8,9,10,16,14,17,12,15,13,11,18,19,20,21,23,24,26,30,32,34,22,38,39,35`1,2,3,4,5,6,7,8,9,13,11,10,12,14,15,16,17,20,19,18,22,25,24,31,28,34,38,39,35`1,2,3,4,5,6,7,8,9,12,11,10,15,13,14,16,19,17,18,20,23,22,21,26,29,34,38,39,35`80`58`56`44`0`0`16763955`-1`14614528`14614528`2,10`11,23,31,1,2,4,26,35`10,20,22,30,1,2,29,3,16,32,35`10,27,1,2,7,35,15";
 	public static string login1 = "setLoginID`1512"; 
 	public static string login2 = "loginSuccessful`1";
-	public static string ping = "ping`1419600276";
+	//public static string ping = "ping`1419600276";
 
 	public static string unlockparts = "1,2,3,4,5,6,7,8,9,10,11,12,13,14`1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39`1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39`1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39";
 
@@ -65,7 +65,9 @@ class TCPClient{
 		Connect();
 
 		string servermsg = null;
+        StringBuilder servermsgbuilder = new StringBuilder();
 		bool smcon = false;
+        Stopwatch stopwatch = new Stopwatch();
 
 		while (true)
 		{
@@ -77,12 +79,13 @@ class TCPClient{
 
 			if (sm != -1)
 			{
-				servermsg += (char)sm;
+                servermsgbuilder.Append((char)sm);
 			}
 
 
 			if (sm == 4 || sm == 0)
 			{
+                servermsg = servermsgbuilder.ToString();
 				Console.WriteLine ("> " + servermsg);
 				switch (Action(servermsg))
 				{
@@ -117,7 +120,8 @@ class TCPClient{
 				case 4:
 					if (originalclient == 1) {
 					} else {
-						SendMsg (ping);
+                        Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                        SendMsg ("ping`" + unixTimestamp);
 					}
 					break;
 				case 5:
@@ -140,6 +144,7 @@ class TCPClient{
 					SendMsg ("finishDrawing`" + slotnum [0]);
 					SendMsg ("setHats0`" + hatid + "`" + hatc + "`" + hatc2);
 					SendMsg ("beginRace`" + slotnum [0]);
+                    stopwatch.Start();
 					break;
 				case 9:
 					SetCustomizeInfo(servermsg);
@@ -154,10 +159,18 @@ class TCPClient{
 					SendMsg("removeHat0`");
 					SendMsg ("setHats0`" + hatid + "`" + hatc + "`" + hatc2);
 					break;
+                case 12:
+                    stopwatch.Stop();
+                    SendMsg("finishTimes`PR2Racer`" + stopwatch.Elapsed.TotalSeconds +"`1`");
+                    stopwatch.Reset();
+                    break;
+                case 13:
+                    Console.WriteLine("Player was ready after " + stopwatch.Elapsed.TotalSeconds + " seconds");
+                    break;
 				default:
 					break;
 				}
-
+                servermsgbuilder.Clear();
 				servermsg = null;
 				smcon = false;
 				nsw.Flush();
@@ -179,7 +192,9 @@ class TCPClient{
 			"finish_drawing", //8
 			"set_customize_info", //9
 			"loose_hat", //10
-			"get_hat" //11
+			"get_hat", //11
+            "finish_race", //12
+            "p`0`0"
 		};
 
 		for (int i = 0; i < actions.Length; i++)
@@ -306,7 +321,7 @@ class TCPClient{
 		if (counter == 12)
 			counter++;
 
-		Console.WriteLine("< " + returnvalue);
+		//Console.WriteLine("< " + returnvalue);
 		return returnvalue;
 	}
 
@@ -320,7 +335,7 @@ class TCPClient{
 		if (counter == 12)
 			counter++;
 
-		Console.WriteLine("< " + returnvalue);
+		//Console.WriteLine("< " + returnvalue);
 		return returnvalue;
 	}
 
