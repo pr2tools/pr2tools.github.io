@@ -43,50 +43,40 @@
 		<div id="first">
 			<div class="row">
 			  <div class="col-xs-6">
-				<div style="height:50px;overflow:hidden;"><center><h4>Platform Racing 2</h4></center></div>
+				<div style="height:50px;overflow:hidden;"><center><h4>Play <b>Platform Racing 2</b> offline</h4></center></div>
 			  </div>
 			  <div class="col-xs-6">
-				 <a href="#" class="btn btn-sm btn-default" onclick="togglechat();">toggle chat</a>	
-			  </div>
+				<a href="https://github.com/Stardox/PR2PS/releases/download/v0.2.0/v0.2.0.zip" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Download Stardox PR2PS server </a>
+
 			   
 		  </div>
 		  
-		  <object type="application/x-shockwave-flash" data="http://pr2tools.github.io/pr2local.swf" width="550" height="400" id="gamediv">
+		  <object type="application/x-shockwave-flash" data="npr2local.swf" width="550" height="400" id="gamediv">
 			<param name="wmode" value="direct">
 			<param name="bgcolor" value="#ffffff">
 			<param name="allownetworking" value="all">
 			<param name="allowscriptaccess" value="never">
+			<param name="FlashVars" value="mainURL=http://localhost:8080&levelsURL=http://localhost:8080/levels" />
+
 		  </object>   
 		  <div class="row">
-		  <div class="col-xs-5"><br/><a href="http://pr2tools.github.io/PR2SRVv3-3.exe" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> Download PR2 local server </a>
-		  Last update: 14. April 2018 (added Stopwatch as requested by TheWicked)
-		  </div>
-		  <div class="col-xs-7">
-			  <div align="left" style="padding-left:50px;">  
-			  <br/>1. Download the server <br/> 2. Start the server and press Enter <br/> 3. Log In here
+		  <div class="col-xs-10">
+			  <div align="left" style="padding-left:50px;">
 			  <br/>
-			  <i>Watch how to run <a href="https://sendvid.com/8d88xl7f" target="_blank">on Windows</a>.</i>
-			  <i>The server does <u>NOT</u> support multiplayer.</i>
+			   <ul class="list-group">
+				  <li class="list-group-item"><span class="badge">1</span>Download <a href="https://archive.org/details/basilisk-portable-with-flash" target="_blank"> Basilisk Browser with Flash Player</a></li>
+				  <li class="list-group-item"><span class="badge">2</span>Open this page in Basilisk and it will display Platform Racing 2 flash game</li>
+				  <li class="list-group-item"><span class="badge">3</span>Download the server archive and unzip it <br/> <a href="https://github.com/Stardox/PR2PS/releases" target="_blank">Release v0.2.0</a></li>
+				  <li class="list-group-item"><span class="badge">4</span>Open your unziped directory</li>
+				  <li class="list-group-item"><span class="badge">5</span>Run <b>PR2PS.Web</b>.exe <br/>(you need to confirm SmartScreen warning)</li>
+				  <li class="list-group-item"><span class="badge">6</span>Run <b>PR2PS.GameServer</b>.exe</li>
+				  <li class="list-group-item"><span class="badge">7</span>Default PR2 username for login: <b>admin</b> <br/>(password not required)</li>
+				</ul> 
 			  </div>
 		  </div>
 		 
 			
-		  <div style="padding-left:15px;padding-right:15px;">
-			  <p>&nbsp;</p>
-			  <p>Current PR2 server status:</p>
-		  <table class="table" id="serverstable" >
-			  <thead>
-				<tr>
-				  <th>#</th>
-				  <th>Server</th>
-				  <th>Players</th>
-				  <th>Status</th>
-				</tr>
-			  </thead>
-			  <tbody>
-			   
-			  </tbody>
-		  </table>
+		  <div style="display:none">
 			<!--Visitor Counter -->
 			<div id="tc-98c12034c3"></div><script type="text/javascript">
 			var _tcq = _tcq || []; _tcq.push(['widget', 'blog']); _tcq.push(['init', '98c12034c3']); 
@@ -98,9 +88,7 @@
 		</div>
 	  </div>
 	  <div id="second" style="display:none">
-		  <br/>
-  		<strong>Please use the <a href="http://www.kongregate.com/games/jiggmin/platform-racing-2" target="_blank">PR2 Kongregate chat</a>!</strong>
-		<img src="https://i.imgur.com/UcRuksk.png" alt="Screenshot" style="max-width:100%">If you have questions you can send me a PM on PR2 (username FastiQ) or send a mail to <a href="mailto:pr2tools@gmail.com?Subject=Message about PR2 server" target="_top">pr2tools@gmail.com</a>. Thanks!
+		
 		
 	   </div>
 	  
@@ -108,78 +96,6 @@
 
 
 </div>
-<script>
-var displaychat = "0";
-function togglechat(){
-	var chat = document.getElementById("second");
-	var wrapper = document.getElementById("wrapper");
-	if(displaychat == "1"){
-		chat.setAttribute("style", "display:none");
-		wrapper.setAttribute("style", "width:550px");
-		displaychat = "0";
-	}else{
-		chat.setAttribute("style", "");
-		displaychat = "1";
-		wrapper.setAttribute("style", "width:1000px");
-	}
-}
-var counter = 0;
-function pr2status(){
-$.getJSON("http://query.yahooapis.com/v1/public/yql",
-  {
-    q:      "select * from json where url=\"https://pr2hub.com/files/server_status_2.txt\"",
-    format: "json"
-  },
-  function (data) {
-    if (data.query.results) {
-      var obj = data.query.results.json;
-      
-      		var tablehtml ="";
-		var maxsrv = 0;
-		var maxsrvid = 0;
-		for (k = 0; k < obj.servers.length; k++) { 
-			var players = parseInt(obj.servers[k].population);
-			if(players >= maxsrv){
-				maxsrvid = k;
-				maxsrv = players;
-			}
-			
-		}
-		for (i = 0; i < obj.servers.length; i++) { 
-			if(obj.servers[i].status == "down"){
-				tablehtml +='<tr>';
-			}else{
-				if(obj.servers[i].population == "0"){
-					tablehtml +='<tr>';
-					
-				}else{
-					if(i == maxsrvid){
-					tablehtml +='<tr class="info">';	
-					}else{
-					tablehtml +='<tr class="active">';
-					}
-					
-				}
-				
-			}
-			var happy = "";
-			if(obj.servers[i].happy_hour == "1"){
-				happy = " =)";
-			}
-			tablehtml +='<th scope="row">' + i + '</th>' +
-						'<td>' + obj.servers[i].server_name + happy + '</td>' +
-						'<td>' + obj.servers[i].population  + '</td>' +
-						'<td>' + obj.servers[i].status  + '</td>' +
-						'</tr>';
-		}
-		document.getElementById("serverstable").getElementsByTagName('tbody')[0].innerHTML = tablehtml;
-    } 
-  }
-);
-counter = counter +1;
 
-}
-pr2status();
-</script>
 </body>
 </html>
