@@ -23,4 +23,4 @@ Follow the guide on [pr2tools.github.io](https://pr2tools.github.io).
 
 :octocat: If you have problems, consider opening an issue here.
 
-There is also a large archive with all 6 million levels from 2016 [[1]](https://mega.nz/folder/VNRgUKRK#X8yxcHdrewIyCsw1MiqeiQ) [[2]](https://mega.nz/folder/9FQRkJob#Q2_k_qgaH3D2B-yyvLj3Bg). If you unpack it, it will consume 80GB of space, not sure if you want that.
+There is also a large archive with all 6 million levels from 2016 [[1]](https://mega.nz/folder/VNRgUKRK#X8yxcHdrewIyCsw1MiqeiQ). If you unpack it, it will consume 80GB of space, not sure if you want that.
