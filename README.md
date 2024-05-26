@@ -1,6 +1,6 @@
 # pr2tools.github.io
 
-## Server and Modified Platform Racing 2 Client for playing while PR2-servers are offline
+## Platform Racing 2 - Server and custom client to play original PR2 locally
 
 Here is a simple solution to play the original Platform Racing 2. It runs locally and allows to play PR2. 
 
