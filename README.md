@@ -1,4 +1,5 @@
-# Platform Racing 2 - Server and custom client to play original PR2 locally
+# Platform Racing 2 (archived)
+## Server and custom client to play original flash game locally
 
 Here is a simple solution to play the original Platform Racing 2. It runs locally and allows to play PR2. 
 
